@@ -1,0 +1,16 @@
+<div class="card-header"><img src="../../assets/icons/category.svg" width="20pt"></div>
+<div class="jumbotron">
+  <div class="form-group">
+    <label for="header">Header Category :</label>
+    <select class="form-control form-control-sm" [(ngModel)]="category.header" id="header">
+      <option value="Root">Root</option>
+      <option *ngFor="let category of this.categoryiesTreeItems" value="{{category.name}}">{{category.description}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="name">Code :</label>
+    <input type="text" [(ngModel)]="category.name" class="form-control form-control-sm" id="name">
+  </div>
+
+  <button (click)="tryCreateCategory()" type="button" class="btn btn-success">Create Category</button>
+</div>

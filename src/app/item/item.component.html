@@ -1,0 +1,10 @@
+<div class="card-header"><img src="../../assets/icons/item.svg" width="20pt"></div>
+<div class="jumbotron">
+  <div class="form-group">
+      <label for="search">Search Item :</label>
+      <input type="text" [(ngModel)]="itemSearchText" class="form-control form-control-sm" id="search">
+  </div>
+  <br/>
+  <button (click)="searchItem()" type="button" class="btn btn-success">Search</button>&nbsp;
+  <button (click)="openNewItem()" type="button" class="btn btn-primary">New Item</button>
+</div>

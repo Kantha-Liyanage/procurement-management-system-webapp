@@ -1,0 +1,66 @@
+<div class="card-header"><img src="../assets/icons/gr.svg" width="20pt"></div>
+<div class="jumbotron">
+
+  <div class="form-group">
+    <label for="supplier">Supplier :</label>
+    <select class="form-control form-control-sm" [(ngModel)]="goodsReceipt.supplier" id="supplier">
+      <option value="">- Select -</option>
+      <option *ngFor="let supplier of suppliers" value="{{supplier.code}}">{{supplier.code}} | {{supplier.name}}</option>
+    </select>
+  </div>
+
+  <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="invoice">Invoice :</label>
+          <input type="text" [(ngModel)]="goodsReceipt.invoice" class="form-control form-control-sm" id="invoice">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+            <label for="date">Date :</label>
+            <div class="input-group">
+              <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" [(ngModel)]="goodsReceipt.date" ngbDatepicker #d="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary btn-sm" (click)="d.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="discount">Discount :</label>
+          <input type="number" [(ngModel)]="goodsReceipt.discount" class="form-control form-control-sm text-right" id="discount">
+        </div>
+      </div>
+  </div>
+
+  <div class="form-group">
+    <label for="remarks">Remarks :</label>
+    <input type="text" [(ngModel)]="goodsReceipt.remarks" class="form-control form-control-sm" id="remarks">
+  </div>
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th style="width:5%">No</th>
+        <th>Item</th>
+        <th style="width:20%">Quantity</th>
+        <th style="width:20%">Subtotal</th>
+        <th style="width:5%">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of goodsReceipt.items">
+        <td><span class="badge badge-info">{{item.no}}</span></td>
+        <td><input type="text" [(ngModel)]="item.item" class="form-control form-control-sm"></td>
+        <td><input type="number" [(ngModel)]="item.quantity" class="form-control form-control-sm text-right"></td>
+        <td><input type="number" [(ngModel)]="item.subTotal" class="form-control form-control-sm text-right"></td>
+        <td><button type="button" (click)="deleteItem(item.no)" class="btn btn-danger">X</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <button type="button" (click)="addNewItem()" class="btn btn-primary">New Item</button>
+  &nbsp;
+  <button type="button" class="btn btn-success">Save</button>
+</div>
