@@ -1,0 +1,48 @@
+<div class="card-header"><b><img src="../../../assets/icons/add.png" width="30px"> Create Purchase Requisition</b></div>
+
+<div class="jumbotron" style="padding-top: 10px;padding-bottom: 30px;">
+
+  <div class="form-group">
+    <label for="supplier">Site :</label>
+    <div class="d-flex">
+      <div class="p-0 flex-grow-1">
+        <select class="form-control form-control-sm" [(ngModel)]="newPurchReq.siteId" id="siteId">
+          <option value="0">- Select -</option>
+          <option *ngFor="let site of mySites" value="{{site.site}}">{{site.name}} - ({{site.site}})</option>
+        </select>
+      </div>
+      &nbsp;<div class="p-0"><button type="button" (click)="showSite()" class="btn btn-secondary btn-sm">View</button></div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="remarks">Remarks :</label>
+    <textarea [(ngModel)]="newPurchReq.remarks" class="form-control form-control-sm" id="remarks"></textarea>
+  </div>
+
+  <!--
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th style="width:5%">No</th>
+        <th>Item</th>
+        <th style="width:20%">Quantity</th>
+        <th style="width:20%">Subtotal</th>
+        <th style="width:5%">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of goodsReceipt.items">
+        <td><span class="badge badge-info">{{item.no}}</span></td>
+        <td><input type="text" [(ngModel)]="item.item" class="form-control form-control-sm"></td>
+        <td><input type="number" [(ngModel)]="item.quantity" class="form-control form-control-sm text-right"></td>
+        <td><input type="number" [(ngModel)]="item.subTotal" class="form-control form-control-sm text-right"></td>
+        <td><button type="button" (click)="deleteItem(item.no)" class="btn btn-danger">X</button></td>
+      </tr>
+    </tbody>
+  </table>
+  -->
+  <button type="button" (click)="addNewItem()" class="btn btn-primary">New Item</button>
+  &nbsp;
+  <button type="button" (click)="save()" class="btn btn-success">Save</button>
+</div>

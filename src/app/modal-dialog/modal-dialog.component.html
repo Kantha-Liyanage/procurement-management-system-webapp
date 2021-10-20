@@ -1,9 +1,9 @@
 <div class="modal-header">
-  <h4 class="modal-title">{{infoTitle}}</h4>
+  <h6 class="modal-title">{{infoTitle}}</h6>
   <button type="button" class="close" aria-label="Close"(click)="activeModal.dismiss('Cross click')">X</button>
 </div>
-<div class="modal-body">{{infoMessage}}</div>
+<div class="modal-body" innerHtml={{infoMessage}} style="font-size: small;"></div>
 <div class="modal-footer">
-  <button *ngIf="okButton" type="button" class="btn btn-success" (click)="activeModal.close('Ok clicked')">Ok</button>
-  <button type="button" class="btn btn-danger" (click)="activeModal.dismiss('Close clicked')">Close</button>
+  <button *ngIf="okButton" type="button" class="btn btn-success btn-sm" (click)="activeModal.close('Ok clicked')">Ok</button>
+  <button type="button" class="btn btn-danger  btn-sm" (click)="activeModal.dismiss('Close clicked')">Close</button>
 </div>

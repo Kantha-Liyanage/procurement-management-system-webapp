@@ -1,31 +1,46 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
-import * as firebase from 'firebase/app';
-import { CookieService } from 'ngx-cookie-service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private firebaseAuth: AngularFireAuth,
-              private fbdb: AngularFireDatabase,
-              private cookies : CookieService) { }
+  singInAPIUrl : string = environment.apiBaseURL + "/Auth/Authenticate";
+  public static accessToken : string;
+  public static username : string;
 
-  signInWithGoogle() {
-    let provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope('profile');
-    provider.addScope('email');
-    return this.firebaseAuth.auth.signInWithPopup(provider);
+  constructor(private http: HttpClient) { }
+
+  signIn(username: string, password: string) {
+    let url = this.singInAPIUrl + '?username=' + username + '&password=' + password; 
+    return this.http.get(url);  
   }
 
-  checkUserAllowed(){
-    return this.fbdb.list('/Viewers').valueChanges();
+  setLoggedOnUser(username : string, token : string){
+    localStorage.setItem("username",username);
+    localStorage.setItem("isLoggedIn","X");
+    localStorage.setItem("token",token);
+    AuthService.accessToken = token;
+    AuthService.username = username;
   }
 
   isLoggedIn() : boolean{
-    let can = this.cookies.get("isLoggedIn").startsWith('X');
-    return can;
+    try{
+      let can = localStorage.getItem("isLoggedIn").startsWith('X');
+      AuthService.accessToken = localStorage.getItem("token");
+      AuthService.username = localStorage.getItem("username");
+      return can;
+    }
+    catch(er){
+      return false;
+    }
+  }
+
+  signOut(){
+    localStorage.setItem("username","");
+    localStorage.setItem("isLoggedIn","");
+    localStorage.setItem("token","");
   }
 }

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDialogComponent } from './modal-dialog/modal-dialog.component';
@@ -12,58 +11,40 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   
-  title : string = "Dreams Hardware";
-  isLoggedIn : boolean = false;
-  loggedOnEmail : string = "";
+  title : string = "Procurement Management System";
+  username : string = "";
+  password : string = "";
 
-  constructor(private cookies : CookieService,
-              private router : Router,
+  isLoggedIn : boolean = false;
+
+  constructor(private router : Router,
               private authService : AuthService,
               private modalService: NgbModal){}
 
   ngOnInit() {
-    this.isLoggedIn = this.cookies.get("isLoggedIn").startsWith('X');
+    this.isLoggedIn = this.authService.isLoggedIn();
   }
 
-  signInWithGoogle(){
-    this.authService.signInWithGoogle().then(async res => {
-      debugger;
-      this.authService.checkUserAllowed().subscribe(
-        (jsonSnapshot)=>{
-          this.isLoggedIn = true;
-          this.cookies.set("isLoggedIn", "X");
-          this.cookies.set("email", res.user.email);
-          this.loggedOnEmail = res.user.email;
-        },
-        (error)=>{
-          this.showModalDialog("Error", "Email: " + res.user.email + " is not a valid account !");
-        }
-      );
-    },
-    error=>{
-      this.isLoggedIn = false;
-      this.cookies.deleteAll();
-      this.showModalDialog("Error", error['message']);
-    });
+  getLoggedOnUsername(){
+    return AuthService.username.toUpperCase();
+  }
+
+  signIn(){
+    this.authService.signIn(this.username, this.password).subscribe(
+      (res)=>{
+        this.authService.setLoggedOnUser(res["username"], res["token"]);
+        this.isLoggedIn = true;
+      },
+      (err)=>{
+        this.showModalDialog("Error", "Invalid login.");
+      }
+    );
   }
 
   signOut(){
-    let modalRef = this.modalService.open(ModalDialogComponent, { centered: true });
-    modalRef.componentInstance.infoTitle = "Logout";
-    modalRef.componentInstance.infoMessage = "Are you sure want to logout?";
-    modalRef.componentInstance.okButton = true;
-
-    modalRef.result.then(
-      (result) => {
-        this.isLoggedIn = false;
-        this.cookies.deleteAll();
-        this.router.navigateByUrl('/');
-      }
-    ).catch(
-      (error) => {
-        //Do nothing
-      }
-    );
+    this.authService.signOut();
+    this.isLoggedIn = false;
+    this.password = "";
   }
 
   showModalDialog(title:string, errorMessage:string) {
