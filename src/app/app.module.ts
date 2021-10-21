@@ -8,13 +8,19 @@ import { AppComponent } from './app.component';
 import { ModalDialogComponent } from './modal-dialog/modal-dialog.component';
 import { NewPurchReqComponent } from './components/new-purch-req/new-purch-req.component';
 import { TokenInterceptor } from './interceptors/token-interceptor';
+import { MaterialPickerComponent } from './components/material-picker/material-picker.component';
+import { ApprovePurchReqComponent } from './components/approve-purch-req/approve-purch-req.component';
+import { ViewPurchReqComponent } from './components/view-purch-req/view-purch-req.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ModalDialogComponent,
     ModalDialogComponent,
-    NewPurchReqComponent
+    NewPurchReqComponent,
+    MaterialPickerComponent,
+    ApprovePurchReqComponent,
+    ViewPurchReqComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +34,9 @@ import { TokenInterceptor } from './interceptors/token-interceptor';
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    ModalDialogComponent
+    ModalDialogComponent,
+    MaterialPickerComponent,
+    ViewPurchReqComponent
   ]
 })
 export class AppModule { }

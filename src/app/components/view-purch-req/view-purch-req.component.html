@@ -1,0 +1,75 @@
+<div class="modal-header">
+  <h6 class="modal-title">Purchase Requisition No : <b>{{purchReq.id}}</b></h6>
+  <button type="button" class="close" aria-label="Close"(click)="activeModal.dismiss('Cross click')">X</button>
+</div>
+
+<div class="modal-body">
+  <!--Results-->
+  <div class="container">
+    <table class="table table-bordered sticky-header table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th><b>Created By</b></th>
+          <th colspan="6">{{purchReq.createdBy}}</th>
+          <th><b>Created Date</b></th>
+          <th colspan="6">{{purchReq.createdDate}}</th>
+        </tr>
+        <tr>
+          <th><b>Remarks</b></th>
+          <th colspan="13">{{remarks}}</th>
+        </tr>
+        <tr>
+          <th>#</th>
+          <th>Item</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>UoM</th>
+          <th>Req. Qty</th>
+          <th style="width: 10%;" class="bg-warning">Approved Qty</th>
+          <th>Req. Date</th>
+          <th>Per</th>
+          <th>Price</th>
+          <th class="bg-info">Sub Total</th>
+          <th>Remarks</th>
+          <th>Supplier</th>
+          <th>Lead Time Days</th>
+        </tr>
+      </thead>
+        <tr *ngFor="let item of items">
+          <td>{{item.itemId}}</td>
+          <td>{{item.materialId}}</td>
+          <td>{{item.materialName}}</td>
+          <td>{{item.materialCategory}}</td>
+          <td>{{item.uom}}</td>
+          <td class="text-right">{{item.requiredQuantity}}</td>
+          <td class="bg-warning"><input type="number" [(ngModel)]="item.approvedQuantity" (change)="itemQuantityChanged(item)" class="form-control form-control-sm text-right"></td>
+          <td>{{item.requiredDate}}</td>
+          <td class="text-right">{{item.priceUnit}}</td>
+          <td class="text-right">{{item.unitPrice}}</td>
+          <td class="bg-info text-right">{{item.subTotal}}</td>
+          <td>{{item.remarks}}</td>
+          <td>{{item.supplierName}}</td>
+          <td class="text-right">{{item.leadTimeDays}}</td>
+        </tr>
+        <!--Summary-->
+        <tr>
+          <td colspan="9">&nbsp;</td>
+          <td><b>Total</b></td>
+          <td class="bg-info text-right"><b>{{grandTotal}}</b></td>
+          <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="14">
+            <button (click)="copyToApprovedQuantityAll()" class="btn btn-primary"><i class="far fa-copy"></i> Copy to Approved Quantity</button>
+            
+            <button (click)="approve()" class="btn btn-success float-right" style="margin-left: 10px;"><i class="fas fa-clipboard-check"></i> Approve</button>
+            <button class="btn btn-danger float-right" style="margin-left: 10px;"><i class="far fa-window-close"></i> Reject</button>
+            <button class="btn btn-info float-right" style="margin-left: 10px;"><i class="fas fa-users"></i> Refer</button>
+            <button class="btn btn-warning float-right"><i class="fas fa-user"></i> Return to Originator</button>
+          </td>
+        </tr>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+</div>

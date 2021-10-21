@@ -1,0 +1,11 @@
+::ng-deep .customModalClass .modal-dialog { 
+    max-width: 90%;
+    width: 90%;
+}
+
+.table td{
+    font-size: small;
+}
+.table th{
+    font-size: small;
+}

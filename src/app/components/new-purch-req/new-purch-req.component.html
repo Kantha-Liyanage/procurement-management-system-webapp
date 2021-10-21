@@ -2,6 +2,18 @@
 
 <div class="jumbotron" style="padding-top: 10px;padding-bottom: 30px;">
 
+  <!--Purch Req No-->
+  <div class="input-group" style="width: 40vw;">
+    <label style="color:blue;"><b>Purchase Requisition No :&nbsp;&nbsp;</b></label>
+    <input type="text" [(ngModel)]="newPurchReq.id" class="form-control form-control-sm" disabled>
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary btn-sm" type="button"><i class="fas fa-search-plus"></i></button>
+    </div>
+    &nbsp;&nbsp;
+    <label><span class="badge badge-info">{{newPurchReq.overallStatus}}</span></label>
+  </div>
+
+  <!--Site-->  
   <div class="form-group">
     <label for="supplier">Site :</label>
     <div class="d-flex">
@@ -15,34 +27,68 @@
     </div>
   </div>
 
+  <!--Remarks-->
   <div class="form-group">
     <label for="remarks">Remarks :</label>
     <textarea [(ngModel)]="newPurchReq.remarks" class="form-control form-control-sm" id="remarks"></textarea>
   </div>
 
-  <!--
-  <table class="table">
+  <!--Items-->
+  <table class="table table-sm">
     <thead class="thead-dark">
       <tr>
-        <th style="width:5%">No</th>
-        <th>Item</th>
-        <th style="width:20%">Quantity</th>
-        <th style="width:20%">Subtotal</th>
-        <th style="width:5%">&nbsp;</th>
+        <th style="width:2%">No</th>
+        <th style="width:8%">Item</th>
+        <th>Name</th>
+        <th style="width:8%">Category</th>
+        <th style="width:5%">UoM</th>
+        <th style="width:6%">Req. Qty</th>
+        <th style="width:6%">App. Qty</th>
+        <th style="width:11%">Req. Date</th>
+        <th style="width:6%">Per</th>
+        <th style="width:6%">Price</th>
+        <th style="width:8%">Sub Total</th>
+        <th style="width:10%">Remarks</th>
+        <th style="width:10%">&nbsp;</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of goodsReceipt.items">
-        <td><span class="badge badge-info">{{item.no}}</span></td>
-        <td><input type="text" [(ngModel)]="item.item" class="form-control form-control-sm"></td>
-        <td><input type="number" [(ngModel)]="item.quantity" class="form-control form-control-sm text-right"></td>
-        <td><input type="number" [(ngModel)]="item.subTotal" class="form-control form-control-sm text-right"></td>
-        <td><button type="button" (click)="deleteItem(item.no)" class="btn btn-danger">X</button></td>
+      <tr *ngFor="let item of newPurchReq.items">
+        <td><span class="badge badge-info">{{item.itemId}}</span></td>
+        <td>
+          <div class="input-group">
+            <input type="text" [(ngModel)]="item.materialId" class="form-control form-control-sm" disabled>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary btn-sm" (click)="pickMaterial(item.itemId)" type="button"><i class="fas fa-search-plus"></i></button>
+            </div>
+          </div>
+        </td>
+        <td><label>{{item.materialName}}</label></td>
+        <td><label>{{item.materialCategory}}</label></td>
+        <td><label>{{item.uom}}</label></td>
+        <td><input type="number" [(ngModel)]="item.requiredQuantity" (change)="itemQuantityChanged(item)" class="form-control form-control-sm text-right"></td>
+        <td class="text-right"><label>{{item.approvedQuantity}}</label></td>
+        <td>
+          <div class="input-group">
+            <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" [(ngModel)]="item.requiredDate" ngbDatepicker #d="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary btn-sm" (click)="d.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+            </div>
+          </div>
+        </td>
+        <td class="text-right">{{item.priceUnit}}</td>
+        <td class="text-right">{{item.unitPrice}}</td>
+        <td class="text-right">{{item.subTotal}}</td>
+        <td><input type="text" [(ngModel)]="item.remarks" class="form-control form-control-sm"></td>
+        <td>
+          <span class="badge badge-info">{{item.status}}</span>&nbsp;
+          <button type="button" (click)="deleteItem(item.itemId)" class="btn btn-danger btn-sm" title="Delete the item from purchase requisition"><i class="fas fa-trash-alt"></i></button>
+        </td>
       </tr>
     </tbody>
   </table>
-  -->
-  <button type="button" (click)="addNewItem()" class="btn btn-primary">New Item</button>
+  
+  <button type="button" (click)="addNewItem()" class="btn btn-primary" title="Add new item to the purchase requisition"><i class="fas fa-plus"></i> New Item</button>
   &nbsp;
-  <button type="button" (click)="save()" class="btn btn-success">Save</button>
+  <button type="button" (click)="save()" class="btn btn-success" title="Save the new purchase requisition"><i class="fas fa-save"></i> Save</button>
 </div>

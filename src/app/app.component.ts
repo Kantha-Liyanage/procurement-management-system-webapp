@@ -26,7 +26,7 @@ export class AppComponent {
   }
 
   getLoggedOnUsername(){
-    return AuthService.username.toUpperCase();
+    return AuthService.username;
   }
 
   signIn(){

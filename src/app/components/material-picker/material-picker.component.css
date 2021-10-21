@@ -1,0 +1,14 @@
+body {
+    padding-top:50px;
+}
+table.floatThead-table {
+    border-top: none;
+    border-bottom: none;
+    background-color: #fff;
+}
+
+th {
+  position: sticky;
+  top: 0px;
+  background: white;
+}

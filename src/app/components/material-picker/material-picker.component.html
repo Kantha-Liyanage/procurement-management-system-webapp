@@ -1,0 +1,62 @@
+<div class="modal-header">
+  <h6 class="modal-title">Material Picker</h6>
+  <button type="button" class="close" aria-label="Close"(click)="activeModal.dismiss('Cross click')">X</button>
+</div>
+<div class="modal-body">
+
+<!--Search-->
+<div class="row">
+  <div class="col">
+    <div class="form-group">
+      <label for="invoice">Name :</label>
+      <input type="text" [(ngModel)]="name" class="form-control form-control-sm" id="name">
+    </div>
+  </div>
+  <div class="col">
+    <div class="form-group">
+      <label for="category">Category :</label>
+      <div class="d-flex">
+        <div class="p-0 flex-grow-1">
+          <select class="form-control form-control-sm" [(ngModel)]="category" id="category">
+            <option value="0">- Select -</option>
+            <option *ngFor="let cat of categories" value="{{cat.id}}">{{cat.name}} - ({{cat.id}})</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col" style="padding-top: 30px;">
+    <button type="button" (click)="search()" class="btn btn-success btn-sm"><i class="fas fa-search"></i> Search</button>
+  </div>
+
+  <!--Results-->
+  <div class="container">
+    <table class="table table-striped sticky-header table-sm">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>UoM</th>
+            <th>Price Unit</th>
+            <th>Unit Price</th>
+            <th>Supplier</th>
+            <th>Lead Time Days</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mat of materials" (dblclick)="selectMaterial(mat)">
+              <td>{{mat.id}}</td>
+              <td>{{mat.name}}</td>
+              <td>{{mat.categoryName}}</td>
+              <td>{{mat.unitOfMeasureName}}</td>
+              <td class="text-right">{{mat.priceUnit}}</td>
+              <td class="text-right">{{mat.unitPrice}}</td>
+              <td>{{mat.supplierName}}</td>
+              <td class="text-right">{{mat.leadTimeDays}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
