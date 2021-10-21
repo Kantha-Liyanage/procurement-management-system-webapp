@@ -46,12 +46,13 @@ export class PurchReqService {
     return this.http.get(url);
   }
 
-  approve(id : number, items :  Array<PurchReqItem>){
+  approve(pr : PurchReq, items :  Array<PurchReqItem>){
     let url : string = environment.apiBaseURL + "/PurchaseRequisitions/Approve";
 
     //Copy
     let body = {
-      Id : id,
+      Id : pr.id,
+      SiteId : pr.siteId,
       items : []
     }
 

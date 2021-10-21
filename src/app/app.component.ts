@@ -32,7 +32,7 @@ export class AppComponent {
   signIn(){
     this.authService.signIn(this.username, this.password).subscribe(
       (res)=>{
-        this.authService.setLoggedOnUser(res["username"], res["token"]);
+        this.authService.setLoggedOnUser(res["firstName"], res["token"]);
         this.isLoggedIn = true;
       },
       (err)=>{

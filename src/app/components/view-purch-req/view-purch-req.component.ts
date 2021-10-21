@@ -80,13 +80,14 @@ export class ViewPurchReqComponent implements OnInit {
     modalRef.componentInstance.okButton = true;
     modalRef.result.then(
       (result) => {
-        this.purchReqService.approve(this.purchReq.id, this.items).subscribe(
+        this.purchReqService.approve(this.purchReq, this.items).subscribe(
           (res)=>{
+            this.showModalDialog("Information",res["message"]);
             this.purchReq.overallStatus = "Close";
             this.closeModal();
           },
           (err)=>{
-
+            this.showModalDialog("Error",err["error"]["message"]);
           }
         );
       }

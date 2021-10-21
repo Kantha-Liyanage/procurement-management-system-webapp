@@ -25,6 +25,7 @@ export class ApprovePurchReqComponent implements OnInit {
         objArray.forEach(obj=>{
           let pr = new PurchReq();
           pr.id = obj.id;
+          pr.siteId = obj.siteId;
           pr.siteName = obj.siteName;
           pr.createdBy = obj.createdBy;
           pr.createdDate = Utils.toDisplayDate(obj.createdDate);
