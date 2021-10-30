@@ -19,6 +19,10 @@ export class ApprovePurchReqComponent implements OnInit {
 
   ngOnInit() {
     //Get my open PRs
+    this.getOpenPurchReqs();
+  }
+
+  getOpenPurchReqs(){
     this.purchReqService.getOpen().subscribe(
       (res)=>{
         let objArray = <Array<any>>res;
@@ -39,7 +43,7 @@ export class ApprovePurchReqComponent implements OnInit {
     );
   }
 
-  gotoPurchReq(purchReq : PurchReq){
+  showPurchReq(purchReq : PurchReq){
     let purchReqView = this.modalService.open(ViewPurchReqComponent, {windowClass : "customModalClass"});
     purchReqView.componentInstance.purchReq = purchReq;
   }

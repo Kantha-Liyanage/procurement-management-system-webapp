@@ -42,7 +42,7 @@
           <td>{{item.materialCategory}}</td>
           <td>{{item.uom}}</td>
           <td class="text-right">{{item.requiredQuantity}}</td>
-          <td class="bg-warning"><input type="number" [(ngModel)]="item.approvedQuantity" (change)="itemQuantityChanged(item)" class="form-control form-control-sm text-right"></td>
+          <td class="bg-warning"><input type="number" [(ngModel)]="item.approvedQuantity" (change)="updateItem(item)" class="form-control form-control-sm text-right"></td>
           <td>{{item.requiredDate}}</td>
           <td class="text-right">{{item.priceUnit}}</td>
           <td class="text-right">{{item.unitPrice}}</td>
@@ -62,7 +62,7 @@
           <td colspan="14">
             <button (click)="copyToApprovedQuantityAll()" class="btn btn-primary"><i class="far fa-copy"></i> Copy to Approved Quantity</button>
             
-            <button (click)="approve()" class="btn btn-success float-right" style="margin-left: 10px;"><i class="fas fa-clipboard-check"></i> Approve</button>
+            <button (click)="validate()" class="btn btn-success float-right" style="margin-left: 10px;"><i class="fas fa-clipboard-check"></i> Approve</button>
             <button class="btn btn-danger float-right" style="margin-left: 10px;"><i class="far fa-window-close"></i> Reject</button>
             <button class="btn btn-info float-right" style="margin-left: 10px;"><i class="fas fa-users"></i> Refer</button>
             <button class="btn btn-warning float-right"><i class="fas fa-user"></i> Return to Originator</button>

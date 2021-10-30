@@ -20,6 +20,10 @@ export class MaterialPickerComponent implements OnInit {
 
   ngOnInit() {
     //Get list items
+    this.getCategories();
+  }
+
+  getCategories(){
     this.masterDataService.getCategories().subscribe(
       (res)=>{
         let objArray = <Array<any>>res;

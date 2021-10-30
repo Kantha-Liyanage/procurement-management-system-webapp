@@ -13,7 +13,6 @@ import { Utils } from 'src/app/utils/utils';
 export class ViewPurchReqComponent implements OnInit {
 
   purchReq : PurchReq;
-  items : Array<PurchReqItem> = new Array<PurchReqItem>();
   grandTotal : number = 0;
 
   constructor(private activeModal: NgbActiveModal,
@@ -22,6 +21,10 @@ export class ViewPurchReqComponent implements OnInit {
 
   ngOnInit() {
     //Get PR
+    this.getPurchReq();
+  }
+
+  getPurchReq(){
     this.purchReqService.get(this.purchReq.id).subscribe(
       (res)=>{
         this.purchReq.createdBy = res["createdBy"];
@@ -47,7 +50,7 @@ export class ViewPurchReqComponent implements OnInit {
           pr.supplierName = obj.supplierName;
           pr.leadTimeDays = obj.leadTimeDays;
 
-          this.items.push(pr);
+          this.purchReq.items.push(pr);
 
           this.grandTotal += pr.unitPrice * pr.approvedQuantity;
         });
@@ -58,57 +61,55 @@ export class ViewPurchReqComponent implements OnInit {
     );
   }
 
-  itemQuantityChanged(item : PurchReqItem){
-    item.subTotal = item.approvedQuantity * item.unitPrice;
-    this.updateGrandTotal();
+  updateItem(item : PurchReqItem){
+    item.updateSubtotal();
+    this.purchReq.updateGrandTotal();
   } 
 
-  approve(){
-    //Validate
+  validate(){
     var total = 0;
-    for(var x=0;x<this.items.length;x++){
-      if(this.items[x].approvedQuantity != undefined && this.items[x].approvedQuantity > 0 ){
+    for(var x=0;x<this.purchReq.items.length;x++){
+      if(this.purchReq.items[x].approvedQuantity != undefined && this.purchReq.items[x].approvedQuantity > 0 ){
         total++;
       }
     }
     if(total == 0){
       this.showModalDialog("Confirm","At leaset one Approved Quantity entry is required.");
-      return;
+      return false;
     }
 
     var modalRef = this.showModalDialog("Confirm","Are you sure you want to approve?");
     modalRef.componentInstance.okButton = true;
     modalRef.result.then(
       (result) => {
-        this.purchReqService.approve(this.purchReq, this.items).subscribe(
-          (res)=>{
-            this.showModalDialog("Information",res["message"]);
-            this.purchReq.overallStatus = "Close";
-            this.closeModal();
-          },
-          (err)=>{
-            this.showModalDialog("Error",err["error"]["message"]);
-          }
-        );
+        this.invokePostAPI();
       }
     ).catch(
       (error) => {
         //Do nothing
+      }
+    );  
+
+    return true;
+  }
+
+  invokePostAPI(){
+    this.purchReqService.approve(this.purchReq, this.purchReq.items).subscribe(
+      (res)=>{
+        this.showModalDialog("Information",res["message"]);
+        this.purchReq.overallStatus = "Close";
+        this.closeModal();
+      },
+      (err)=>{
+        this.showModalDialog("Error",err["error"]["message"]);
       }
     );
   }
 
   copyToApprovedQuantityAll(){
     this.grandTotal = 0;
-    this.items.forEach(item=>{
+    this.purchReq.items.forEach(item=>{
       item.approvedQuantity = item.requiredQuantity;
-      this.grandTotal += item.unitPrice * item.approvedQuantity;
-    });
-  }
-
-  updateGrandTotal(){
-    this.grandTotal = 0;
-    this.items.forEach(item=>{
       this.grandTotal += item.unitPrice * item.approvedQuantity;
     });
   }

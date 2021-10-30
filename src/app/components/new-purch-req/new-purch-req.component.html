@@ -59,14 +59,14 @@
           <div class="input-group">
             <input type="text" [(ngModel)]="item.materialId" class="form-control form-control-sm" disabled>
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary btn-sm" (click)="pickMaterial(item.itemId)" type="button"><i class="fas fa-search-plus"></i></button>
+              <button class="btn btn-outline-secondary btn-sm" (click)="showMaterialPicker(item.itemId)" type="button"><i class="fas fa-search-plus"></i></button>
             </div>
           </div>
         </td>
         <td><label>{{item.materialName}}</label></td>
         <td><label>{{item.materialCategory}}</label></td>
         <td><label>{{item.uom}}</label></td>
-        <td><input type="number" [(ngModel)]="item.requiredQuantity" (change)="itemQuantityChanged(item)" class="form-control form-control-sm text-right"></td>
+        <td><input type="number" [(ngModel)]="item.requiredQuantity" (change)="item.updateSubtotal()" class="form-control form-control-sm text-right"></td>
         <td class="text-right"><label>{{item.approvedQuantity}}</label></td>
         <td>
           <div class="input-group">
@@ -88,7 +88,7 @@
     </tbody>
   </table>
   
-  <button type="button" (click)="addNewItem()" class="btn btn-primary" title="Add new item to the purchase requisition"><i class="fas fa-plus"></i> New Item</button>
+  <button type="button" (click)="newPurchReq.addNewItem();" class="btn btn-primary" title="Add new item to the purchase requisition"><i class="fas fa-plus"></i> New Item</button>
   &nbsp;
-  <button type="button" (click)="save()" class="btn btn-success" title="Save the new purchase requisition"><i class="fas fa-save"></i> Save</button>
+  <button type="button" (click)="validate()" class="btn btn-success" title="Save the new purchase requisition"><i class="fas fa-save"></i> Save</button>
 </div>

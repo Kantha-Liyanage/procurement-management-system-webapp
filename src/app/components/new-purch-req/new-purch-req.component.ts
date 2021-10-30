@@ -29,6 +29,10 @@ export class NewPurchReqComponent implements OnInit {
 
   ngOnInit() {
     //Get sites list
+    this.getSites();
+  }
+
+  getSites(){
     this.masterDataService.getSites().subscribe(
       (res)=>{
         let objArray = <Array<any>>res;
@@ -43,23 +47,15 @@ export class NewPurchReqComponent implements OnInit {
         debugger;
       }
     );
-
-    //inital item
-    this.addNewItem();
   }
 
-  pickMaterial(itemNo : number){
+  showMaterialPicker(itemNo : number){
     let materialPicker = this.modalService.open(MaterialPickerComponent, {centered: true, size: 'lg'});
     materialPicker.result.then(
       (selectedMaterial) => {
         if(selectedMaterial){
-          let item = this.newPurchReq.items[itemNo-1];
-          item.materialId = selectedMaterial.id;
-          item.materialName = selectedMaterial.name;
-          item.materialCategory = selectedMaterial.categoryName;
-          item.uom = selectedMaterial.unitOfMeasureName;
-          item.priceUnit = selectedMaterial.priceUnit;
-          item.unitPrice = selectedMaterial.unitPrice;
+          let item = this.newPurchReq.getItem(itemNo);
+          item.setItemMaterial(selectedMaterial);
         }
       }
     ).catch(
@@ -67,14 +63,6 @@ export class NewPurchReqComponent implements OnInit {
         //Do nothing
       }
     );
-  }
-
-  itemQuantityChanged(item : PurchReqItem){
-    item.subTotal = item.requiredQuantity * item.unitPrice;
-  }
-
-  addNewItem(){
-    this.newPurchReq.addNewItem();
   }
 
   deleteItem(no:number){
@@ -89,45 +77,6 @@ export class NewPurchReqComponent implements OnInit {
     ).catch(
       (error) => {
         //Do nothing
-      }
-    );
-  }
-
-  save(){
-    if(!this.validate()){
-      return;
-    }
-
-    let modalRef = this.showModalDialog("Confirm", "Are you sure want to save?");
-    modalRef.componentInstance.okButton = true;
-    modalRef.result.then(
-      (result) => {
-        this.invokePostAPI();
-      }
-    ).catch(
-      (error) => {
-        //Do nothing
-      }
-    );
-  }
-
-  invokePostAPI(){
-    this.purchReqService.post(this.newPurchReq).subscribe(
-      (res)=>{
-        let serverCopy = <PurchReq>res;
-        //Copy server values
-        this.newPurchReq.id = serverCopy.id;
-        this.newPurchReq.overallStatus = serverCopy.overallStatus;
-
-        //Item values
-        serverCopy.items.forEach(item=>{
-          this.newPurchReq.items.find(x=>x.itemId == item.itemId).status = item.status;
-        });
-
-        this.showModalDialog("Information", "Purchase Requisition No: " + this.newPurchReq.id + " created successfully!");
-      },
-      (err)=>{
-        debugger;
       }
     );
   }
@@ -162,7 +111,41 @@ export class NewPurchReqComponent implements OnInit {
         return false;
       }
     }
+    
+    let modalRef = this.showModalDialog("Confirm", "Are you sure want to save?");
+    modalRef.componentInstance.okButton = true;
+    modalRef.result.then(
+      (result) => {
+        this.invokePostAPI();
+      }
+    ).catch(
+      (error) => {
+        //Do nothing
+      }
+    );
+
     return true;
+  }
+
+  invokePostAPI(){
+    this.purchReqService.post(this.newPurchReq).subscribe(
+      (res)=>{
+        let serverCopy = <PurchReq>res;
+        //Copy server values
+        this.newPurchReq.id = serverCopy.id;
+        this.newPurchReq.overallStatus = serverCopy.overallStatus;
+
+        //Item values
+        serverCopy.items.forEach(item=>{
+          this.newPurchReq.items.find(x=>x.itemId == item.itemId).status = item.status;
+        });
+
+        this.showModalDialog("Information", "Purchase Requisition No: " + this.newPurchReq.id + " created successfully!");
+      },
+      (err)=>{
+        debugger;
+      }
+    );
   }
 
   showSite(){

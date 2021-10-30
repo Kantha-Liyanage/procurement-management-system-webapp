@@ -20,7 +20,7 @@
       <td>{{pr.createdDate}}</td>
       <td class="text-right">{{pr.totalValue}}</td>
       <td *ngIf="pr.overallStatus != 'Close'" class="text-center">
-        <button type="button" (click)="gotoPurchReq(pr)" class="btn btn-info btn-sm" title="View purchase requisition"><i class="fas fa-edit"></i></button>
+        <button type="button" (click)="showPurchReq(pr)" class="btn btn-info btn-sm" title="View purchase requisition"><i class="fas fa-edit"></i></button>
       </td>
       <td *ngIf="pr.overallStatus == 'Close'" class="text-center">
         <span class="badge badge-success">Approved</span>
