@@ -25,6 +25,7 @@ export class ViewPurchReqComponent implements OnInit {
   }
 
   getPurchReq(){
+    debugger;
     this.purchReqService.get(this.purchReq.id).subscribe(
       (res)=>{
         this.purchReq.createdBy = res["createdBy"];
